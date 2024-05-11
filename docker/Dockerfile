@@ -3,13 +3,20 @@
 # Github: arthurcadore
 # Capacitação Redes - PV Intelbras
 
-# Use the base image for FTP:
-  FROM arthurcadore/vsftp-fh:1.0
+# Use the official alpine image as a base:
+  FROM alpine:3.19.1
 
-  # Add startup script to container:
-  COPY docker/startup.sh /usr/sbin/startup.sh
-  RUN chmod +x /usr/sbin/startup.sh
-    
-  # Starts and Mantain container running:
-  CMD ["/usr/sbin/startup.sh"]
+  # Download and install TFTP server:
+  RUN apk add --no-cache tftp-hpa
   
+  # Create a directory to store the files:
+  RUN mkdir -p /tftpshare
+  
+  # Copy the configuration file to the container:
+  COPY serverTFTP/startup.sh /usr/local/bin/startup.sh
+  
+  # Set the file as executable:
+  RUN chmod +x /usr/local/bin/startup.sh
+  
+  # Start the TFTP server and keep it running:
+  CMD ["/usr/local/bin/startup.sh"]
