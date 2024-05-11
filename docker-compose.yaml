@@ -1,0 +1,25 @@
+# Main composition file for FTP Application Container.
+# Author: Arthur Cadore M. Barcella
+# Github: arthurcadore
+
+version: '3.8'
+services:
+  ftpserver:
+    container_name: ftpserver
+    ports:
+      - '21:21' # FTP Control Connection Ports
+      - '65000-65004:65000-65004' # FTP Transfer ports
+    volumes:
+       - "./data/servicecard/:/data/x1/"
+       - "./data/managecard/:/data/x2/"
+       - "./log:/var/log"
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    environment:
+      - FTP_USER=capacita
+      - FTP_PASSWORD=fileftp
+      - HOST=10.1.31.10
+      - PASV_MIN_PORT=65000
+      - PASV_MAX_PORT=65004
+    restart: always
