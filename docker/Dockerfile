@@ -13,7 +13,7 @@
   RUN mkdir -p /tftpshare
   
   # Copy the configuration file to the container:
-  COPY serverTFTP/startup.sh /usr/local/bin/startup.sh
+  COPY docker/startup.sh /usr/local/bin/startup.sh
   
   # Set the file as executable:
   RUN chmod +x /usr/local/bin/startup.sh
